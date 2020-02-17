@@ -24,7 +24,7 @@ RSpec.describe ShowsController, type: :controller do
     context 'with wrong params' do
       let(:params) { { start_date: '10.01.2020', end_date: '15.01.2020' } }
 
-      it 'should return a show' do
+      it 'should return an error' do
         post :create, params: params
 
         expect(response.status).to eq 422
@@ -56,6 +56,16 @@ RSpec.describe ShowsController, type: :controller do
 
         expect(response.status).to eq 200
         expect(response).to match_json_schema('shows/delete_show')
+      end
+    end
+
+    context 'with wrong params' do
+      let(:params) { { id: 100 } }
+
+      it 'should return an error' do
+        delete :destroy, params: params
+
+        expect(response.status).to eq 404
       end
     end
   end
